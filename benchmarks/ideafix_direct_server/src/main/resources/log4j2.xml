@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) Pierre-Yves Peton 2020-2022.
+  ~ All rights reserved
+  -->
+
+<Configuration status="info" shutdownHook="disable">
+<!-- recommended on debug  <AsyncWaitStrategyFactory
+            class="com.fixisoft.util.concurrent.BusySpinWaitFactory" />-->
+    <Appenders>
+        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="ideafix_server.log" filePattern="logs/$${date:yyyy-MM}/ideafix_server-%d{yyyy-MM-dd-HH}-%i.log.gz" immediateFlush="false" append="true">
+            <PatternLayout pattern="%d{ISO8601} %level %logger{1.} - %marker %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="4" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="512 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="50"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <AsyncRoot level="info" includeLocation="false">
+            <AppenderRef ref="RollingRandomAccessFile"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>

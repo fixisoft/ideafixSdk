@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="21" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ideafix_client" />
+            <option value="$PROJECT_DIR$/ideafix_direct_client" />
+            <option value="$PROJECT_DIR$/ideafix_direct_server" />
+            <option value="$PROJECT_DIR$/ideafix_server" />
+            <option value="$PROJECT_DIR$/quickfix_client" />
+            <option value="$PROJECT_DIR$/quickfix_server" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

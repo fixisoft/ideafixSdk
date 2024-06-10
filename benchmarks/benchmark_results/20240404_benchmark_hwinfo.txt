@@ -1,0 +1,13 @@
+memory         128KiB L1 cache
+memory         128KiB L1 cache
+memory         1MiB L2 cache
+memory         8MiB L3 cache
+processor      8 * Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+memory         32GiB System Memory
+memory         8GiB DIMM DDR4 Synchronous 2133 MHz (0.5 ns)
+memory         8GiB DIMM DDR4 Synchronous 2133 MHz (0.5 ns)
+memory         8GiB DIMM DDR4 Synchronous 2133 MHz (0.5 ns)
+memory         8GiB DIMM DDR4 Synchronous 2133 MHz (0.5 ns)
+bridge         Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor Host Bridge/DRAM Registers
+bridge         6th-10th Gen Core Processor PCIe Controller (x16)
+storage        PC300 NVMe SK hynix 256GB

@@ -1,0 +1,126 @@
+/*
+ * Copyright (c) Pierre-Yves Peton 2024.
+ * All rights reserved
+ */
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+}
+
+allprojects {
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    apply plugin: 'application'
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    ext {
+        common = ['-dsa',
+                  '-server',
+                  '-Xms4g',
+                  '-Xmx8g', //test heap <4G to exploit zero based compressed oops
+                  '-XX:+UseZGC',// benchmarks show generational ZGC decreases performances for the moment
+                  '-XX:+AlwaysPreTouch',
+                  '-XX:+DisableExplicitGC',
+                  '-XX:-UseCompressedOops',
+                  '--enable-preview',
+                  '--add-opens',
+                  'java.base/jdk.internal.misc=ALL-UNNAMED',
+                  '--add-opens',
+                  'java.base/sun.nio.ch=ALL-UNNAMED',
+                  '--add-opens',
+                  'java.base/java.nio=ALL-UNNAMED',
+                  '--add-exports',
+                  'java.base/jdk.internal.vm.annotation=ALL-UNNAMED',
+                  '--enable-native-access=ALL-UNNAMED',
+                  '-XX:+UnlockDiagnosticVMOptions',
+                  '-XX:+AlwaysPreTouchStacks',
+                  '-XX:+OmitStackTraceInFastThrow',
+                  '-XX:-RestrictContended',
+                  '-XX:-CheckIntrinsics',
+                  '-XX:AutoBoxCacheMax=4096',
+                  '-Dio.netty.tryReflectionSetAccessible=true',
+                  '-Dio.netty.buffer.checkBounds=false',
+                  '-Dio.netty.buffer.checkAccessible=false',
+                  '-Dio.netty.allocator.useCacheForAllThreads=false',
+                  '-Dio.netty.leakDetection.level=disabled',
+                  '-Dlog4j2.isWebapp=false',
+                  '-Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.BasicAsyncLoggerContextSelector',
+                  '-Dlog4j2.enableThreadlocals=true',
+                  '-Dlog4j2.enableDirectEncoders=true',
+                  '-Dlog4j2.formatMsgAsync=true',
+                  '-Dlog4j2.garbagefreeThreadContextMap=true',
+                  '-Dlog4j2.clock=CachedClock',
+                  '-Dlog4j2.disable.jmx=true',
+                  '-Dlog4j2.initialReusableMsgSize=128',
+                  '-Dlog4j2.maxReusableMsgSize=512',
+                  '-Dlog4j2.layoutStringBuilderMaxSize=2048',
+                  '-Dlog4j2.unboxRingbufferSize=16',
+                  '-DAsyncLogger.SynchronizeEnqueueWhenQueueFull=false',
+                  '-Dlog4j2.disableCloudConfigLoggingSystem=true',
+                  '-DAsyncLogger.ThreadNameStrategy=CACHED',
+                  '-DAsyncLogger.WaitStrategy=busyspin',
+                  '-XX:+UnlockExperimentalVMOptions',
+                  '-XX:+UseCharacterCompareIntrinsics',
+                  '-XX:+UseLargePages',
+                  '-XX:+UseCopySignIntrinsic',
+                  '-XX:+UseSystemMemoryBarrier',
+                  '-XX:+UseVectorCmov',
+                  '-XX:+UseVectorizedHashCodeIntrinsic']
+
+        allArgs = common + ['-XX:MaxGCPauseMillis=20']
+
+        configurations.all {
+            exclude group: "logback", module: "logback-classic"
+            exclude group: "org.slf4j", module: "slf4j-log4j12"
+        }
+    }
+
+    // Apply a specific Java toolchain to ease working on different environments.
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    tasks.withType(JavaCompile).all {
+        options.compilerArgs += ['--enable-preview',
+                                 '--add-exports',
+                                 'java.base/jdk.internal.vm.annotation=ALL-UNNAMED',
+                                 '--add-exports',
+                                 'java.base/jdk.internal.misc=ALL-UNNAMED']
+    }
+
+    //Configure Java compilation tasks to enable feature previews
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs += ['--enable-preview']
+    }
+
+    application {
+        applicationDefaultJvmArgs = allArgs
+    }
+
+    idea {
+        module {
+            sourceDirs += file('src/main/java')
+            resourceDirs += file('src/main/resources')
+        }
+    }
+
+}

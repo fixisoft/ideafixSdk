@@ -1,0 +1,11 @@
+apply plugin: 'application'
+apply plugin: 'java'
+
+dependencies {
+    implementation 'com.fixisoft:ideafix:+'
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.fixisoft.fix.example.client.OMClientExample'
+}

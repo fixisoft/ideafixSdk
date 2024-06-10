@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) Pierre-Yves Peton 2020-2022.
+  ~ All rights reserved
+  -->
+
+<Configuration status="debug" shutdownHook="disable">
+    <Appenders>
+<!--  recommended on debug     <AsyncWaitStrategyFactory
+                class="com.fixisoft.util.concurrent.BusySpinWaitFactory" />-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ISO8601} %level %logger{1.} - %marker %msg%n"/>
+        </Console>
+        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="quickfix_client.log" filePattern="logs/$${date:yyyy-MM}/quickfix_client-%d{yyyy-MM-dd-HH}-%i.log.gz" immediateFlush="false" append="false">
+            <PatternLayout pattern="%d{ISO8601} %level %logger{1.} - %marker %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <AsyncRoot level="error" includeLocation="false">
+            <AppenderRef ref="RollingRandomAccessFile"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>
