@@ -3,28 +3,47 @@
 DEFAULT_DURATION=600 
 DEFAULT_BENCHMARK_DIR="./ideafix_bench"
 DEFAULT_TAG="35=D"
+DEFAULT_USE_LOW_GC=true
+IDEAFIX_CLIENT="ideafix_client"
+IDEAFIX_LOW_GC_CLIENT="ideafix_direct_client"
+IDEAFIX_SERVER="ideafix_server"
+IDEAFIX_LOW_GC_SERVER="ideafix_direct_server"
 
 helpFunction()
 {
    echo "Run a ideaFIX benchmark for a given duration, benchmark directory and tag. Requires sudo rights"
-   echo "Usage: $0 -d duration -s benchmarkDir -t tag"
+   echo "Usage: $0 -d duration -s benchmarkDir -t tag -g"
    echo -e "\t-d duration of benchmark run (default is $DEFAULT_DURATION)"
    echo -e "\t-s message root directory location (default is $DEFAULT_BENCHMARK_DIR) WARNING directory is cleared at each run"
    echo -e "\t-t tag to look for, usually to id a transaction (default is $DEFAULT_TAG)"
+   echo -e "\t-g to use the low gc version of ideafix (default is false)"
    exit 1 # Exit script after printing help
 }
 
-while getopts "d:s:t:h:" opt
+
+while getopts "d:s:t:gh" opt
 do
    case "$opt" in
       d ) duration="$OPTARG" ;;
       s ) benchmarkDir="$OPTARG" ;;
       t ) tag="$OPTARG" ;;
+      g ) useLowGc=true ;;
       h ) helpFunction ;;
       ? ) helpFunction ;;
    esac
 done
 
+
+if [ "$useLowGc" = true ]
+then
+   echo "-g defined using low gc client $IDEAFIX_LOW_GC_CLIENT and server $IDEAFIX_LOW_GC_SERVER" 
+   client=$IDEAFIX_LOW_GC_CLIENT
+   server=$IDEAFIX_LOW_GC_SERVER
+else
+   echo "-g not defined using default client $IDEAFIX_CLIENT and server $IDEAFIX_SERVER" 
+   client=$IDEAFIX_CLIENT
+   server=$IDEAFIX_SERVER
+fi
 # use default is duration is empty
 if [ -z "$duration" ] 
 then
@@ -55,11 +74,11 @@ rm -rf $benchmarkDir
 mkdir $benchmarkDir
 
 #rebuild 
-echo "re-build ideafix_server and ideafix_client ..."
-gradle ideafix_server:clean
-gradle ideafix_client:clean
-gradle ideafix_server:distTar
-gradle ideafix_client:distTar
+echo "re-build $server and $client ..."
+gradle $server:clean
+gradle $client:clean
+gradle $server:distTar
+gradle $client:distTar
 
 echo "kill all java processes (requires sudo rights) ..."
 #kill all the java processes
@@ -67,32 +86,32 @@ sudo killall java
 
 #unpack in benchmark folder
 echo "unpack in benchmark folder $benchmarkDir ..."
-tar -xvf ./ideafix_server/build/distributions/ideafix_server.tar -C $benchmarkDir
-tar -xvf ./ideafix_client/build/distributions/ideafix_client.tar -C $benchmarkDir
+tar -xvf ./$server/build/distributions/$server.tar -C $benchmarkDir
+tar -xvf ./$client/build/distributions/$client.tar -C $benchmarkDir
 
 
 #enter benchmark folder, start server wait 5s and start client  
 cd $benchmarkDir || exit
 
-echo "start server ..."
-./ideafix_server/bin/ideafix_server  &
+echo "start $server ..."
+./$server/bin/$server  &
 server_pid=$!
 sudo ionice -c 1 -n 4 -p $server_pid
 echo "wait 5s ..."
 sleep 5
-echo "start client ..."
-./ideafix_client/bin/ideafix_client  &
+echo "start $client ..."
+./$client/bin/$client  &
 client_pid=$!
 sudo ionice -c 1 -n 4 -p $client_pid
 
 #let the script, server and client run for a certain duration
 echo "wait ${duration}s ..."
 sleep $duration
-echo "kill server ..."
+echo "kill $server ..."
 kill $server_pid
 echo "wait 5s ..."
 sleep 5
-echo "kill client ..."
+echo "kill $client ..."
 kill $client_pid
 
 echo "extract the number of tags $tag in outgoing client messages located in $benchmarkDir ..."

@@ -37,7 +37,6 @@ allprojects {
                   '-XX:+AlwaysPreTouch',
                   '-XX:+DisableExplicitGC',
                   '-XX:-UseCompressedOops',
-                  '--enable-preview',
                   '--add-opens',
                   'java.base/jdk.internal.misc=ALL-UNNAMED',
                   '--add-opens',
@@ -58,6 +57,10 @@ allprojects {
                   '-Dio.netty.buffer.checkAccessible=false',
                   '-Dio.netty.allocator.useCacheForAllThreads=false',
                   '-Dio.netty.leakDetection.level=disabled',
+                  '-Dio.netty.allocator.numHeapArenas=0',
+                  '-Dio.netty.allocator.pageSize=16384',
+                  '-Dio.netty.allocator.cacheTrimInterval=32768',
+                  '-Dio.netty.recycler.chunkSize=256',
                   '-Dlog4j2.isWebapp=false',
                   '-Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.BasicAsyncLoggerContextSelector',
                   '-Dlog4j2.enableThreadlocals=true',
@@ -90,26 +93,16 @@ allprojects {
         }
     }
 
-    // Apply a specific Java toolchain to ease working on different environments.
     java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     tasks.withType(JavaCompile).all {
-        options.compilerArgs += ['--enable-preview',
-                                 '--add-exports',
+        options.compilerArgs += ['--add-exports',
                                  'java.base/jdk.internal.vm.annotation=ALL-UNNAMED',
                                  '--add-exports',
                                  'java.base/jdk.internal.misc=ALL-UNNAMED']
-    }
-
-    //Configure Java compilation tasks to enable feature previews
-    tasks.withType(JavaCompile).configureEach {
-        options.compilerArgs += ['--enable-preview']
     }
 
     application {

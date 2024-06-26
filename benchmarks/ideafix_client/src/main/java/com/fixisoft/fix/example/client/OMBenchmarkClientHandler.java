@@ -11,8 +11,6 @@ import com.fixisoft.interfaces.fix.message.ImmutableMessage;
 import com.fixisoft.interfaces.fix.session.IChannelContext;
 import com.fixisoft.interfaces.fix.session.IFixIncomingHandler;
 import com.fixisoft.util.TimeBasedUniqueIdSequence;
-import com.fixisoft.util.TimeBasedUniqueIdSequenceDirect;
-import io.netty.buffer.ByteBuf;
 import io.netty.util.AsciiString;
 
 import java.util.function.Supplier;
@@ -26,7 +24,8 @@ public final class OMBenchmarkClientHandler implements IFixIncomingHandler<IMess
     private static final AsciiString EXECUTION_REPORT = AsciiString.cached(MsgType.EXECUTION_REPORT);
     private IChannelContext<IMessage> ctx;
     private Supplier<AsciiString> sequence;
-    private Supplier<IMessage> supplier;
+    private Supplier<IMessage> fastSupplier;
+    private Supplier<IMessage> slowSupplier;
 
     @Override
     public void close() {
@@ -34,8 +33,12 @@ public final class OMBenchmarkClientHandler implements IFixIncomingHandler<IMess
 
     private void fillSingleNewOrder() {
         try {
-            final IMessage m = supplier.get();
-            if (m == null) return;
+            IMessage m;
+            if ((m = fastSupplier.get()) == null) {
+                if ((m = fastSupplier.get()) == null) {
+                    m = slowSupplier.get();
+                }
+            }
             m.set(OrdType.FIELD, OrdType.LIMIT);
             m.set(Price.FIELD, ctx.decimal(100.122));
             m.set(Side.FIELD, Side.BUY);
@@ -52,7 +55,8 @@ public final class OMBenchmarkClientHandler implements IFixIncomingHandler<IMess
 
     @Override
     public void onLogon(final IChannelContext<IMessage> ctx) {
-        this.supplier = ctx.getSupplier(ORDER_SINGLE);
+        this.fastSupplier = ctx.getSupplier(ORDER_SINGLE);
+        this.slowSupplier = ctx.getSupplier(ORDER_SINGLE);
         this.ctx = ctx;
         this.sequence = ctx.asyncSupplier(new TimeBasedUniqueIdSequence());
         fillSingleNewOrder();

@@ -11,8 +11,8 @@ import com.fixisoft.interfaces.fix.message.IMessage;
 import com.fixisoft.interfaces.fix.message.ImmutableMessage;
 import com.fixisoft.interfaces.fix.session.IChannelContext;
 import com.fixisoft.interfaces.fix.session.IFixIncomingHandler;
+import com.fixisoft.interfaces.fix.types.FixDecimal;
 import com.fixisoft.util.TimeBasedUniqueIdSequence;
-import com.fixisoft.util.types.FixDecimal;
 import io.netty.util.AsciiString;
 
 import java.util.function.Supplier;
@@ -29,7 +29,12 @@ public final class OMBenchmarkServerHandler implements IFixIncomingHandler<IMess
     private Supplier<IMessage> slowSupplier;
 
     private IMessage fillExecutionReport(final IChannelContext<IMessage> ctx, final char status, final AsciiString symbol, final FixDecimal qty, final FixDecimal price) throws InvalidFixException {
-        final IMessage m = ctx.makeMessageOpt(fastSupplier, slowSupplier);
+        IMessage m;
+        if ((m = fastSupplier.get()) == null) {
+            if ((m = fastSupplier.get()) == null) {
+                m = slowSupplier.get();
+            }
+        }
         m.set(OrderID.FIELD, orderIds.get());
         m.set(ExecID.FIELD, execIds.get());
         m.set(ExecType.FIELD, ExecType.FILL);

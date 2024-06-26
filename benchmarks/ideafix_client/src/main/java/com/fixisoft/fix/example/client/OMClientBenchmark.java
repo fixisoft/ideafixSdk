@@ -40,25 +40,26 @@ public final class OMClientBenchmark {
                 entry(FILE_STORE_PATH, "./ideafix_data/ideafix_client"),
                 entry(HEART_BT_INT, 10),
                 entry(INCOMING_POOL_SIZES, Map.of(
-                        "8", 512,
-                        "0", 128,
-                        "1", 128,
-                        "2", 128,
-                        "3", 128,
-                        "4", 128,
-                        "5", 128,
-                        "A", 128
+                        "8", 256,
+                        "0", 64,
+                        "1", 64,
+                        "2", 64,
+                        "3", 64,
+                        "4", 64,
+                        "5", 64,
+                        "A", 64
                 )),
                 entry(OUTGOING_POOL_SIZES, Map.of(
-                        "D", 256,
-                        "0", 128,
-                        "1", 128,
-                        "2", 128,
-                        "3", 128,
-                        "4", 128,
-                        "5", 128,
-                        "A", 128
+                        "D", 128,
+                        "0", 64,
+                        "1", 64,
+                        "2", 64,
+                        "3", 64,
+                        "4", 64,
+                        "5", 64,
+                        "A", 64
                 )),
+                entry(PERSIST_INCOMING_MESSAGES, false),
                 entry(WORKER_EVENT_LOOP_BUSY_WAIT, true),
                 entry(SO_BUSY_POLL, 50), // depends on System setup needs root
                 entry(SOCKET_CONNECT_PROTOCOL, Protocol.UNIX_DOMAIN_SOCKET.name()),

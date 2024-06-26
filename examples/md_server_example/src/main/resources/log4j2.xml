@@ -11,7 +11,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{ISO8601} %level %logger{1.} - %marker %msg%n"/>
         </Console>
-        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="md_server_example.log" filePattern="logs/$${date:yyyy-MM}/md_server_example-%d{yyyy-MM-dd-HH}-%i.log.gz" immediateFlush="false" append="false">
+        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="MDfixserver.log" filePattern="logs/$${date:yyyy-MM}/MDfixserver-%d{yyyy-MM-dd-HH}-%i.log.gz" immediateFlush="false" append="false">
             <PatternLayout pattern="%d{ISO8601} %level %logger{1.} - %marker %msg%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy />
@@ -23,9 +23,7 @@
     <Loggers>
         <AsyncRoot level="debug" includeLocation="false">
             <AppenderRef ref="RollingRandomAccessFile"/>
-<!--
             <AppenderRef ref="Console"/>
--->
         </AsyncRoot>
     </Loggers>
 </Configuration>

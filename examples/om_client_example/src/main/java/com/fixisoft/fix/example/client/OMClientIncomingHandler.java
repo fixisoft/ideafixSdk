@@ -34,6 +34,10 @@ public final class OMClientIncomingHandler implements IFixIncomingHandler<IMessa
         if (future != null) future.cancel(true);
     }
 
+    @Override
+    public void onDisconnection() {
+        if (future != null) future.cancel(true);
+    }
 
     private void fillSingleNewOrder() {
         try {

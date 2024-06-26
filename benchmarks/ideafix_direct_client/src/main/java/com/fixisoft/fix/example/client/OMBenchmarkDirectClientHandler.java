@@ -25,7 +25,8 @@ public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler
     private static final AsciiString EXECUTION_REPORT = AsciiString.cached(MsgType.EXECUTION_REPORT);
     private IChannelContext<IMessage> ctx;
     private Supplier<ByteBuf> sequence;
-    private Supplier<IMessage> supplier;
+    private Supplier<IMessage> slowSupplier;
+    private Supplier<IMessage> fastSupplier;
 
     @Override
     public void close() {
@@ -33,8 +34,12 @@ public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler
 
     private void fillSingleNewOrder() {
         try {
-            final IMessage m = supplier.get();
-            if (m == null) return;
+            IMessage m;
+            if ((m = fastSupplier.get()) == null) {
+                if ((m = fastSupplier.get()) == null) {
+                    m = slowSupplier.get();
+                }
+            }
             m.set(OrdType.FIELD, OrdType.LIMIT);
             m.set(Price.FIELD, ctx.decimal(100.122));
             m.set(Side.FIELD, Side.BUY);
@@ -51,7 +56,8 @@ public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler
 
     @Override
     public void onLogon(final IChannelContext<IMessage> ctx) {
-        this.supplier = ctx.getSupplier(ORDER_SINGLE);
+        this.slowSupplier = ctx.getSlowSupplier(ORDER_SINGLE);
+        this.fastSupplier = ctx.getSupplier(ORDER_SINGLE);
         this.ctx = ctx;
         this.sequence = ctx.asyncSupplier(new TimeBasedUniqueIdSequenceDirect());
         fillSingleNewOrder();

@@ -1,0 +1,16 @@
+apply plugin: 'application'
+apply plugin: 'java'
+
+dependencies {
+    implementation 'com.fixisoft:ideafix:+'
+}
+
+
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.fixisoft.fix.example.server.OMIdeaFixServerDirectExample'
+
+    applicationDefaultJvmArgs = allArgs + ['-Xlog:gc*:file=om_server_direct_example.gc.log']
+
+}

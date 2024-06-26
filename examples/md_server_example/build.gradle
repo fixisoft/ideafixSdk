@@ -5,8 +5,7 @@ dependencies {
     implementation 'com.fixisoft:ideafix:+'
 }
 
-
 application {
     // Define the main class for the application.
-    mainClass = 'com.fixisoft.fix.example.server.MDServerExample'
+    mainClass = 'com.fixisoft.fix.example.server.FixMDServerExample'
 }

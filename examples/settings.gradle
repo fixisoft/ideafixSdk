@@ -17,5 +17,8 @@ rootProject.name = 'examples'
 include 'om_server_example'
 include 'om_client_example'
 
+include 'om_server_direct_example'
+include 'om_client_direct_example'
+
 include 'md_server_example'
 include 'md_client_example'

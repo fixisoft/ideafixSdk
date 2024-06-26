@@ -29,7 +29,12 @@ public final class OMBenchmarkDirectServerHandler implements IFixIncomingHandler
     private Supplier<IMessage> slowSupplier;
 
     private IMessage fillExecutionReport(final IChannelContext<IMessage> ctx, final char status, final ImmutableMessage incoming) throws InvalidFixException {
-        final IMessage m = ctx.makeMessageOpt(fastSupplier, slowSupplier);
+        IMessage m;
+        if ((m = fastSupplier.get()) == null) {
+            if ((m = fastSupplier.get()) == null) {
+                m = slowSupplier.get();
+            }
+        }
         m.setDirect(OrderID.FIELD, orderIds.get());
         m.setDirect(ExecID.FIELD, execIds.get());
         m.set(ExecType.FIELD, ExecType.FILL);
