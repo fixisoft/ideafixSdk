@@ -11,4 +11,8 @@ The SDK is divided into 2 main sections :
 
 FIX is the standard protocol for financial applications, similar to what HTTP is for the web.
 
-Please visit www.fixisoft.com if you want more information !
+Script ```debian_setup_script.sh``` install dependencies and dowload latest binaries 
+on a fresh debian-based linux distribution. Install on other environments can be derived without 
+too much trouble. 
+
+Please visit www.fixisoft.com if you're looking for more information !
