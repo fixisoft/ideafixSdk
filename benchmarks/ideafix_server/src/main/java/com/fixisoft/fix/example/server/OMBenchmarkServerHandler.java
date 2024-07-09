@@ -6,7 +6,7 @@
 package com.fixisoft.fix.example.server;
 
 import com.fixisoft.interfaces.fix.InvalidFixException;
-import com.fixisoft.interfaces.fix.fields.*;
+import com.fixisoft.interfaces.fix.fields.fix44.*;
 import com.fixisoft.interfaces.fix.message.IMessage;
 import com.fixisoft.interfaces.fix.message.ImmutableMessage;
 import com.fixisoft.interfaces.fix.session.IChannelContext;
@@ -17,12 +17,12 @@ import io.netty.util.AsciiString;
 
 import java.util.function.Supplier;
 
-import static com.fixisoft.interfaces.fix.fields.MsgType.EXECUTION_REPORT;
+import static com.fixisoft.interfaces.fix.fields.fix44.MsgType.EXECUTION_REPORT;
 
 
 public final class OMBenchmarkServerHandler implements IFixIncomingHandler<IMessage> {
 
-    private static final AsciiString ORDER_SINGLE = AsciiString.cached(MsgType.ORDER_SINGLE);
+    private static final AsciiString ORDER_SINGLE = MsgType.ORDER_SINGLE;
     private Supplier<AsciiString> execIds;
     private Supplier<IMessage> fastSupplier;
     private Supplier<AsciiString> orderIds;

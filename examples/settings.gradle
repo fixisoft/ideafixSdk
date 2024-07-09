@@ -22,3 +22,5 @@ include 'om_client_direct_example'
 
 include 'md_server_example'
 include 'md_client_example'
+
+include 'ctrader_md_client_example'

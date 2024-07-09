@@ -5,7 +5,7 @@
 
 package com.fixisoft.fix.example.client;
 
-import com.fixisoft.interfaces.fix.fields.*;
+import com.fixisoft.interfaces.fix.fields.fix44.*;
 import com.fixisoft.interfaces.fix.message.IMessage;
 import com.fixisoft.interfaces.fix.message.ImmutableMessage;
 import com.fixisoft.interfaces.fix.session.IChannelContext;
@@ -16,13 +16,13 @@ import io.netty.util.AsciiString;
 
 import java.util.function.Supplier;
 
-import static com.fixisoft.interfaces.fix.fields.MsgType.ORDER_SINGLE;
+import static com.fixisoft.interfaces.fix.fields.fix44.MsgType.ORDER_SINGLE;
 
 
 public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler<IMessage> {
 
     private static final AsciiString MSFT = AsciiString.cached("MSFT");
-    private static final AsciiString EXECUTION_REPORT = AsciiString.cached(MsgType.EXECUTION_REPORT);
+    private static final AsciiString EXECUTION_REPORT = MsgType.EXECUTION_REPORT;
     private IChannelContext<IMessage> ctx;
     private Supplier<ByteBuf> sequence;
     private Supplier<IMessage> slowSupplier;

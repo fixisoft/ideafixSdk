@@ -5,8 +5,7 @@
 
 package com.fixisoft.fix.example.server;
 
-import com.fixisoft.interfaces.fix.InvalidFixException;
-import com.fixisoft.interfaces.fix.fields.*;
+import com.fixisoft.interfaces.fix.fields.fix44.*;
 import com.fixisoft.interfaces.fix.message.IGroup;
 import com.fixisoft.interfaces.fix.message.IMessage;
 import com.fixisoft.interfaces.fix.message.ImmutableMessage;
@@ -20,7 +19,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
-import static com.fixisoft.interfaces.fix.fields.MsgType.MARKET_DATA_SNAPSHOT_FULL_REFRESH;
+import static com.fixisoft.interfaces.fix.fields.fix44.MsgType.MARKET_DATA_SNAPSHOT_FULL_REFRESH;
 
 
 public final class MDServerIncomingHandler implements IFixIncomingHandler<IMessage> {

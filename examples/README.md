@@ -3,13 +3,13 @@ IdeaFIX SDK
 
 Pre-requisites 
 
-* JDK 21
+* JDK 17
 * Gradle 8.0+
 * Maven 2.6+
 
-IdeaFIX requires a JDK 21 minimum. Examples are written in JAVA, 
+IdeaFIX requires a JDK 17 minimum. Examples are written in JAVA, 
 but it's possible to your JVM language of choice.
-Installer is here : https://jdk.java.net/21/
+Installer is here : https://jdk.java.net/
 
 To run the install script, you’ll need Maven 2.6+. 
 Installer is here : https://maven.apache.org/install.html
@@ -17,7 +17,9 @@ Installer is here : https://maven.apache.org/install.html
 To run the example you'll need gradle 8.0+.
 Installer is here : https://gradle.org/install/
 
-This documentation will grow overtime but to start wih, there are 2 examples :
+This documentation will grow overtime but to start wih, there are 5 examples.
+
+First 4 are :
 
 * ```om_client_example```
 * ```om_server_example```
@@ -68,3 +70,7 @@ tail -f om_server_example/fixserver.log
 tail -f md_client_example/MDfixclient.log
 tail -f md_server_example/MDfixserver.log
 ```
+
+And lastly, ```ctrader_md_client_example``` is an example to connect to CTrader FIX API https://help.ctrader.com/fix/
+It's possibible to freely create a demo account
+

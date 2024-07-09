@@ -5,7 +5,7 @@
 
 package com.fixisoft.fix.example.client;
 
-import com.fixisoft.interfaces.fix.fields.*;
+import com.fixisoft.interfaces.fix.fields.fix44.*;
 import com.fixisoft.interfaces.fix.message.IMessage;
 import com.fixisoft.interfaces.fix.message.ImmutableMessage;
 import com.fixisoft.interfaces.fix.session.IChannelContext;
@@ -18,7 +18,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
-import static com.fixisoft.interfaces.fix.fields.MsgType.ORDER_SINGLE;
+import static com.fixisoft.interfaces.fix.fields.fix44.MsgType.ORDER_SINGLE;
 
 
 public final class OMClientIncomingDirectHandler implements IFixIncomingHandler<IMessage> {
