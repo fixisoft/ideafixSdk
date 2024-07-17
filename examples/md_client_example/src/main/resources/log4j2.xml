@@ -4,9 +4,9 @@
   ~ All rights reserved
   -->
 
-<Configuration status="debug" shutdownHook="disable">
-   <AsyncWaitStrategyFactory
-            class="com.fixisoft.util.concurrent.BusySpinWaitFactory" />
+<Configuration status="info" shutdownHook="disable">
+<!--   <AsyncWaitStrategyFactory
+            class="com.fixisoft.util.concurrent.BusySpinWaitFactory" />-->
     <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{ISO8601} %level %logger{1.} - %marker %msg%n"/>
@@ -21,7 +21,7 @@
     </RollingRandomAccessFile>
   </Appenders>
   <Loggers>
-    <AsyncRoot level="debug" includeLocation="false">
+    <AsyncRoot level="info" includeLocation="false">
       <AppenderRef ref="RollingRandomAccessFile"/>
       <AppenderRef ref="Console"/>
     </AsyncRoot>

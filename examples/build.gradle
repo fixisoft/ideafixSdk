@@ -74,7 +74,6 @@ allprojects {
                   '-Dlog4j2.layoutStringBuilderMaxSize=2048',
                   '-Dlog4j2.unboxRingbufferSize=16',
                   '-DAsyncLogger.SynchronizeEnqueueWhenQueueFull=false',
-                  '-Dlog4j2.disableCloudConfigLoggingSystem=true',
                   '-DAsyncLogger.ThreadNameStrategy=CACHED',
                   '-DAsyncLogger.WaitStrategy=busyspin',
                   '-XX:+UnlockExperimentalVMOptions',

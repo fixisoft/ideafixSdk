@@ -4,8 +4,8 @@
 package com.fixisoft.fix.example.client;
 
 
-import com.fixisoft.interfaces.fix.ConnectionType;
 import com.fixisoft.fix.FixClientFactory;
+import com.fixisoft.interfaces.fix.ConnectionType;
 import com.fixisoft.interfaces.fix.IFixClient;
 import com.fixisoft.interfaces.fix.Protocol;
 import com.fixisoft.interfaces.fix.config.IFixConfig;
@@ -39,7 +39,7 @@ public final class FixMDClientExample {
                 entry(IFixConfig.FILE_STORE_PATH, "./messages/" + name),
                 entry(IFixConfig.HEART_BT_INT, 10),
                 entry(IFixConfig.INCOMING_POOL_SIZES, Map.of(
-                        "W", 1024,
+                        "W", 4096,
                         "0", 64,
                         "1", 64,
                         "2", 64,
@@ -49,7 +49,7 @@ public final class FixMDClientExample {
                         "A", 64
                 )),
                 entry(IFixConfig.OUTGOING_POOL_SIZES, Map.of(
-                        "V", 512,
+                        "V", 64,
                         "0", 64,
                         "1", 64,
                         "2", 64,

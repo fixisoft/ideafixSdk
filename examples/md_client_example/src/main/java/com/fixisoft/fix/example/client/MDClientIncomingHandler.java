@@ -22,13 +22,12 @@ import static com.fixisoft.interfaces.fix.fields.fix44.MsgType.MARKET_DATA_REQUE
 
 public final class MDClientIncomingHandler implements IFixIncomingHandler<IMessage> {
 
-    private static final int FULL_BOOK = 0;
+    private static final List<Character> MD_ENTRY_TYPES = List.of(BID, OFFER, TRADE, '3');
 
     private static final List<AsciiString> TICKERS = List.of(AsciiString.cached("MSFT"), AsciiString.cached("GOOG"), AsciiString.cached("FB"));
 
-    private static final List<Character> MD_ENTRY_TYPES = List.of(BID, OFFER, TRADE, '3');
-
     private Supplier<AsciiString> sequence;
+
     private Supplier<IMessage> supplier;
 
 
@@ -36,7 +35,7 @@ public final class MDClientIncomingHandler implements IFixIncomingHandler<IMessa
         final IMessage m = supplier.get();
         m.set(MDReqID.FIELD, sequence.get());
         m.set(SubscriptionRequestType.FIELD, SubscriptionRequestType.SNAPSHOT);
-        m.set(MarketDepth.FIELD, FULL_BOOK);
+        m.set(MarketDepth.FIELD, 0);//FULL_BOOK
         for (int i = 0; i < MD_ENTRY_TYPES.size(); i++)
             m.set(NoMDEntryTypes.FIELD, i, FIELD, MD_ENTRY_TYPES.get(i));
         for (int i = 0; i < TICKERS.size(); i++)

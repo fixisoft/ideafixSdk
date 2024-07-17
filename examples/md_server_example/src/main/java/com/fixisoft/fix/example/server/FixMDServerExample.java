@@ -5,10 +5,10 @@ package com.fixisoft.fix.example.server;
 
 
 import com.fixisoft.fix.FixServerFactory;
-import com.fixisoft.interfaces.fix.config.IFixConfig;
 import com.fixisoft.interfaces.fix.ConnectionType;
 import com.fixisoft.interfaces.fix.IFixServer;
 import com.fixisoft.interfaces.fix.Protocol;
+import com.fixisoft.interfaces.fix.config.IFixConfig;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public final class FixMDServerExample {
                 entry(IFixConfig.FILE_STORE_PATH, "./messages/" + name),
                 entry(IFixConfig.HEART_BT_INT, 10),
                 entry(IFixConfig.INCOMING_POOL_SIZES, Map.of(
-                        "V", 512,
+                        "V", 64,
                         "0", 64,
                         "1", 64,
                         "2", 64,
@@ -50,7 +50,7 @@ public final class FixMDServerExample {
                         "A", 64
                 )),
                 entry(IFixConfig.OUTGOING_POOL_SIZES, Map.of(
-                        "W", 1024,
+                        "W", 2048,
                         "0", 64,
                         "1", 64,
                         "2", 64,
