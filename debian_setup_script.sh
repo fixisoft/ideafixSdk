@@ -36,11 +36,11 @@ sdk install maven
 
 # download and unzip IdeaFIX SDK
 cd ~
-wget http://www.fixisoft.com/ideafixSdk-1.1.0.zip
-unzip ideafixSdk-1.1.0.zip
+wget http://www.fixisoft.com/ideafixSdk-1.2.4.zip
+unzip ideafixSdk-1.2.4.zip
 
 # run benchmarks
-# cd ideafixSdk-1.1.0
+# cd ideafixSdk-1.2.4
 # ./install.sh
 # cd benchmark
 # ./ideafix_bench.sh
