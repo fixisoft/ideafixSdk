@@ -3,11 +3,11 @@
 DEFAULT_DURATION=600 
 DEFAULT_BENCHMARK_DIR="./ideafix_bench"
 DEFAULT_TAG="35=D"
-DEFAULT_USE_LOW_GC=true
+
 IDEAFIX_CLIENT="ideafix_client"
-IDEAFIX_LOW_GC_CLIENT="ideafix_direct_client"
+IDEAFIX_NO_GC_CLIENT="ideafix_direct_client"
 IDEAFIX_SERVER="ideafix_server"
-IDEAFIX_LOW_GC_SERVER="ideafix_direct_server"
+IDEAFIX_NO_GC_SERVER="ideafix_direct_server"
 
 helpFunction()
 {
@@ -16,31 +16,50 @@ helpFunction()
    echo -e "\t-d duration of benchmark run (default is $DEFAULT_DURATION)"
    echo -e "\t-s message root directory location (default is $DEFAULT_BENCHMARK_DIR) WARNING directory is cleared at each run"
    echo -e "\t-t tag to look for, usually to id a transaction (default is $DEFAULT_TAG)"
-   echo -e "\t-g to use the low gc version of ideafix (default is false)"
+   echo -e "\t-g to use the no-gc version of ideafix (default is low gc)"
+   echo -e "\t-l use SSL (default is no SSL)"
+   echo -e "\t-p use TCP (default is no TCP)"
    exit 1 # Exit script after printing help
 }
 
 
-while getopts "d:s:t:gh" opt
+while getopts "d:s:t:glph" opt
 do
    case "$opt" in
       d ) duration="$OPTARG" ;;
       s ) benchmarkDir="$OPTARG" ;;
       t ) tag="$OPTARG" ;;
-      g ) useLowGc=true ;;
+      g ) useNoGc=true ;;
+      l ) useSSL=true ;;
+      p ) useTCP=true ;;
       h ) helpFunction ;;
       ? ) helpFunction ;;
    esac
 done
 
+if [ "$useSSL" = true ]
+then
+  echo "-l is defined using SSL"
+  sslArg="--ssl"
+else
+  echo "-l is not defined not using SSL"
+fi
+
+if [ "$useTCP" = true ]
+then
+  echo "-p is defined using TCP"
+  tcpArgs="--tcp"
+else
+  echo "-p is not defined not using TCP"
+fi
 
 if [ "$useLowGc" = true ]
 then
-   echo "-g defined using low gc client $IDEAFIX_LOW_GC_CLIENT and server $IDEAFIX_LOW_GC_SERVER" 
-   client=$IDEAFIX_LOW_GC_CLIENT
-   server=$IDEAFIX_LOW_GC_SERVER
+   echo "-g defined using no-gc client $IDEAFIX_NO_GC_CLIENT and server $IDEAFIX_NO_GC_SERVER"
+   client=$IDEAFIX_NO_GC_CLIENT
+   server=$IDEAFIX_NO_GC_SERVER
 else
-   echo "-g not defined using default client $IDEAFIX_CLIENT and server $IDEAFIX_SERVER" 
+   echo "-g not defined using low-gc client $IDEAFIX_CLIENT and server $IDEAFIX_SERVER"
    client=$IDEAFIX_CLIENT
    server=$IDEAFIX_SERVER
 fi
@@ -93,14 +112,14 @@ tar -xvf ./$client/build/distributions/$client.tar -C $benchmarkDir
 #enter benchmark folder, start server wait 5s and start client  
 cd $benchmarkDir || exit
 
-echo "start $server ..."
-./$server/bin/$server  &
+echo "start $server $sslArg $tcpArgs ..."
+./$server/bin/$server $sslArg $tcpArgs &
 server_pid=$!
 sudo ionice -c 1 -n 4 -p $server_pid
 echo "wait 5s ..."
 sleep 5
-echo "start $client ..."
-./$client/bin/$client  &
+echo "start $client $sslArg $tcpArgs ..."
+./$client/bin/$client $sslArg $tcpArgs  &
 client_pid=$!
 sudo ionice -c 1 -n 4 -p $client_pid
 

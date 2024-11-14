@@ -6,10 +6,12 @@ package com.fixisoft.fix.example.server;
 
 
 import com.fixisoft.fix.FixServerFactory;
+import com.fixisoft.interfaces.fix.Protocol;
 import com.fixisoft.interfaces.fix.config.IFixConfig;
 import com.fixisoft.interfaces.fix.IFixServer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.fixisoft.fix.FixServerFactory.makeServer;
@@ -26,12 +28,14 @@ public final class OMDirectServerBenchmark {
 
     public static void main(String[] args) {
         final String name = OMDirectServerBenchmark.class.getSimpleName();
-        final IFixServer fixServer = makeServer(makeSimpleServerConfig(name), new OMBenchmarkDirectServerHandler());
+        final boolean useSSL = List.of(args).contains("--ssl");
+        final boolean useTCP = List.of(args).contains("--tcp");
+        final IFixServer fixServer = makeServer(makeSimpleServerConfig(name, useSSL,useTCP), new OMBenchmarkDirectServerHandler());
         fixServer.run();
     }
 
-    public static IFixConfig makeSimpleServerConfig(final String name) {
-        Map<String,Object> session = ofEntries(
+    public static IFixConfig makeSimpleServerConfig(final String name, final  boolean useSSL, final boolean useTCP) {
+        Map<String,Object> configMap = new HashMap<>(ofEntries(
                 entry(BEGIN_STRING, "FIX.4.4"),
                 entry(CONNECTION_TYPE, ACCEPTOR),
                 entry(DATA_DICTIONARY, "DIRECT_SIMPLE_OM.xml"),
@@ -64,16 +68,26 @@ public final class OMDirectServerBenchmark {
                 entry(BOSS_EVENT_LOOP_BUSY_WAIT, false),
                 entry(WORKER_EVENT_LOOP_BUSY_WAIT, true),
                 entry(SO_BUSY_POLL, 50), // depends on System setup needs root
-                entry(SOCKET_ACCEPT_PROTOCOL, UNIX_DOMAIN_SOCKET.name()),
-                entry(UNIX_DOMAIN_SOCKET_PATH, "/dev/shm/om_benchmark.sock"),
-            //    entry(IFixConfig.SOCKET_ACCEPT_PROTOCOL, Protocol.TCP.name()),
                 entry(SOCKET_HOST, "localhost"),
                 entry(SOCKET_ACCEPT_PORT, 8080),
                 entry(SENDER_COMP_ID, BENCHMARK_SERVER),
                 entry(TARGET_COMP_ID, BENCHMARK_CLIENT)
-                );
+                ));
+        if(useSSL) {
+            configMap.put(IFixConfig.SOCKET_USE_SSL, true);
+            configMap.put(IFixConfig.NEED_CLIENT_AUTH, true);
+            configMap.put(IFixConfig.SOCKET_KEY_STORE, "server.jks");
+            configMap.put(IFixConfig.SOCKET_KEY_STORE_PASSWORD, "server_password");
+            configMap.put(IFixConfig.CIPHER_SUITES,"TLS_AES_128_GCM_SHA256");
+        }
+        if(useTCP) {
+            configMap.put(SOCKET_ACCEPT_PROTOCOL, Protocol.TCP.name());
+        } else {
+            configMap.put(SOCKET_ACCEPT_PROTOCOL, UNIX_DOMAIN_SOCKET.name());
+            configMap.put(UNIX_DOMAIN_SOCKET_PATH, "/dev/shm/om_benchmark.sock");
+        }
         Map<String, Map<String,Object>> sessionProperties = new HashMap<>();
-        sessionProperties.put(name, session);
+        sessionProperties.put(name, configMap);
         return FixServerFactory.loadConfig(sessionProperties);
     }
 }
