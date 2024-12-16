@@ -53,7 +53,7 @@ else
   echo "-p is not defined not using TCP"
 fi
 
-if [ "$useLowGc" = true ]
+if [ "$useNoGc" = true ]
 then
    echo "-g defined using no-gc client $IDEAFIX_NO_GC_CLIENT and server $IDEAFIX_NO_GC_SERVER"
    client=$IDEAFIX_NO_GC_CLIENT

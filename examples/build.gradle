@@ -68,7 +68,6 @@ allprojects {
                   '-Dlog4j2.formatMsgAsync=true',
                   '-Dlog4j2.garbagefreeThreadContextMap=true',
                   '-Dlog4j2.clock=CachedClock',
-                  '-Dlog4j2.disable.jmx=true',
                   '-Dlog4j2.initialReusableMsgSize=128',
                   '-Dlog4j2.maxReusableMsgSize=512',
                   '-Dlog4j2.layoutStringBuilderMaxSize=2048',
