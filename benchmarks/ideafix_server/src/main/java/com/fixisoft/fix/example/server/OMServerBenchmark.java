@@ -7,7 +7,6 @@ package com.fixisoft.fix.example.server;
 
 import com.fixisoft.fix.FixServerFactory;
 import com.fixisoft.interfaces.fix.config.IFixConfig;
-import com.fixisoft.interfaces.fix.ConnectionType;
 import com.fixisoft.interfaces.fix.IFixServer;
 import com.fixisoft.interfaces.fix.Protocol;
 
@@ -46,7 +45,7 @@ public final class OMServerBenchmark {
                 entry(FILE_STORE_PATH, "./ideafix_data/ideafix_server"),
                 entry(HEART_BT_INT, 10),
                 entry(INCOMING_POOL_SIZES, Map.of(
-                        "D", 64,
+                        "D", 128,
                         "0", 32,
                         "1", 32,
                         "2", 32,
@@ -56,7 +55,7 @@ public final class OMServerBenchmark {
                         "A", 32
                 )),
                 entry(OUTGOING_POOL_SIZES, Map.of(
-                        "8", 128,
+                        "8", 256,
                         "0", 32,
                         "1", 32,
                         "2", 32,
@@ -69,6 +68,9 @@ public final class OMServerBenchmark {
                 entry(PERSIST_OUTGOING_MESSAGES, false),
                 entry(BOSS_EVENT_LOOP_BUSY_WAIT, false),
                 entry(WORKER_EVENT_LOOP_BUSY_WAIT, true),
+                entry(SO_SNDBUF, 512),
+                entry(SO_RCVBUF,256),
+                entry(TCP_NOT_SENT_LOWAT, 1024),
                 entry(SO_BUSY_POLL, 50), // depends on System setup needs root
                 entry(SOCKET_HOST, "localhost"),
                 entry(SOCKET_ACCEPT_PORT, 8080),

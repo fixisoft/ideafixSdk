@@ -27,12 +27,12 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
 
+    //default gc allows to use GraalVM compiler optimizations
     ext {
         common = ['-dsa',
                   '-server',
                   '-Xms4g',
                   '-Xmx4g', //test heap <4G to exploit zero based compressed oops
-                  '-XX:+UseZGC',//garbage creation is ultra-low, zgc is the fastest with very short pause times
                   '-XX:+AlwaysPreTouch',
                   '-XX:+DisableExplicitGC',
                   '-XX:-UseCompressedOops',
@@ -49,6 +49,7 @@ allprojects {
                   '-XX:+AlwaysPreTouchStacks',
                   '-XX:+OmitStackTraceInFastThrow',
                   '-XX:-RestrictContended',
+		          '-XX:-ParallelRefProcEnabled',
                   '-XX:-CheckIntrinsics',
                   '-XX:AutoBoxCacheMax=4096',
                   '-XX:CompileThreshold=40000',
@@ -78,6 +79,7 @@ allprojects {
                   '-Dlog4j2.unboxRingbufferSize=32',
                   '-DAsyncLogger.SynchronizeEnqueueWhenQueueFull=false',
                   '-DAsyncLogger.threadNameStrategy=CACHED',
+		          '-Dcom.fixisoft.fix.util.concurrent.FixThreadFactory.loopType=asyncNanoTime',
                   '-XX:+UnlockExperimentalVMOptions',
                   '-XX:+UseCharacterCompareIntrinsics',
                   '-XX:+UseLargePages',

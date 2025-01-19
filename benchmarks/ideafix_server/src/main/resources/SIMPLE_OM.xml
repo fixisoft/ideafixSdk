@@ -86,8 +86,8 @@
             <value enum="A" description="LOGON"/>
             <value enum="D" description="ORDER_SINGLE"/>
         </field>
-        <field number="49" name="SenderCompID" type="STRING"/>
-        <field number="56" name="TargetCompID" type="STRING"/>
+        <field number="49" name="SenderCompID" type="STRING" skipped="true"/>
+        <field number="56" name="TargetCompID" type="STRING" skipped="true"/>
         <field number="34" name="MsgSeqNum" type="SEQNUM"/>
         <field number="43" name="PossDupFlag" type="BOOLEAN"/>
         <field number="52" name="SendingTime" type="UTCTIMESTAMP"/>
@@ -138,8 +138,8 @@
         <field number="58" name="Text" type="STRING"/>
         <field number="123" name="GapFillFlag" type="BOOLEAN"/>
         <field number="36" name="NewSeqNo" type="SEQNUM"/>
-        <field number="11" name="ClOrdID" type="STRING" />
-        <field number="55" name="Symbol" type="STRING" />
+        <field number="11" name="ClOrdID" type="STRING"/>
+        <field number="55" name="Symbol" type="STRING"/>
         <field number="54" name="Side" type="CHAR">
             <value enum="1" description="BUY"/>
             <value enum="2" description="SELL"/>
@@ -158,8 +158,8 @@
             <value enum="F" description="LEND"/>
             <value enum="G" description="BORROW"/>
         </field>
-        <field number="60" name="TransactTime" type="UTCTIMESTAMP" />
-        <field number="38" name="OrderQty" type="QTY" />
+        <field number="60" name="TransactTime" type="UTCTIMESTAMP"/>
+        <field number="38" name="OrderQty" type="QTY"/>
         <field number="40" name="OrdType" type="CHAR">
             <value enum="1" description="MARKET"/>
             <value enum="2" description="LIMIT"/>
@@ -186,8 +186,8 @@
             <value enum="P" description="PEGGED"/>
         </field>
         <field number="44" name="Price" type="PRICE"/>
-        <field number="37" name="OrderID" type="STRING" />
-        <field number="17" name="ExecID" type="STRING" />
+        <field number="37" name="OrderID" type="STRING"/>
+        <field number="17" name="ExecID" type="STRING"/>
         <field number="150" name="ExecType" type="CHAR">
             <value enum="0" description="NEW"/>
             <value enum="1" description="PARTIAL_FILL"/>
@@ -226,8 +226,8 @@
             <value enum="D" description="ACCEPTED_FOR_BIDDING"/>
             <value enum="E" description="PENDING_REPLACE"/>
         </field>
-        <field number="31" name="LastPx" type="PRICE" />
-        <field number="14" name="CumQty" type="QTY" />
-        <field number="6" name="AvgPx" type="PRICE" />
+        <field number="31" name="LastPx" type="PRICE"/>
+        <field number="14" name="CumQty" type="QTY"/>
+        <field number="6" name="AvgPx" type="PRICE"/>
     </fields>
 </fix>

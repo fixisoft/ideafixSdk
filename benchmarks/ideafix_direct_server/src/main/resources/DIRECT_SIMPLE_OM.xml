@@ -86,8 +86,8 @@
             <value enum="A" description="LOGON"/>
             <value enum="D" description="ORDER_SINGLE"/>
         </field>
-        <field number="49" name="SenderCompID" type="STRING"/>
-        <field number="56" name="TargetCompID" type="STRING"/>
+        <field number="49" name="SenderCompID" type="STRING" skipped="true"/>
+        <field number="56" name="TargetCompID" type="STRING" skipped="true"/>
         <field number="34" name="MsgSeqNum" type="SEQNUM"/>
         <field number="43" name="PossDupFlag" type="BOOLEAN"/>
         <field number="52" name="SendingTime" type="UTCTIMESTAMP" direct="true"/>

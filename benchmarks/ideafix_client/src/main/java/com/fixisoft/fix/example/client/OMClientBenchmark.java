@@ -10,7 +10,6 @@ import com.fixisoft.interfaces.fix.IFixClient;
 import com.fixisoft.interfaces.fix.Protocol;
 import com.fixisoft.interfaces.fix.config.IFixConfig;
 import com.fixisoft.interfaces.fix.session.NoopMessageInitializer;
-import org.bouncycastle.util.Arrays;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +44,7 @@ public final class OMClientBenchmark {
                 entry(FILE_STORE_PATH, "./ideafix_data/ideafix_client"),
                 entry(HEART_BT_INT, 10),
                 entry(INCOMING_POOL_SIZES, Map.of(
-                        "8", 128,
+                        "8", 256,
                         "0", 32,
                         "1", 32,
                         "2", 32,
@@ -55,7 +54,7 @@ public final class OMClientBenchmark {
                         "A", 32
                 )),
                 entry(OUTGOING_POOL_SIZES, Map.of(
-                        "D", 64,
+                        "D", 128,
                         "0", 32,
                         "1", 32,
                         "2", 32,
@@ -67,6 +66,9 @@ public final class OMClientBenchmark {
                 entry(PERSIST_INCOMING_MESSAGES, false),
                 entry(WORKER_EVENT_LOOP_BUSY_WAIT, true),
                 entry(SO_BUSY_POLL, 50), // depends on System setup needs root
+                entry(SO_SNDBUF, 256),
+                entry(SO_RCVBUF,512),
+                entry(TCP_NOT_SENT_LOWAT, 1024),
                 entry(SOCKET_HOST, "localhost"),
                 entry(SOCKET_PORT, 8080),
                 entry(SENDER_COMP_ID, BENCHMARK_CLIENT),
