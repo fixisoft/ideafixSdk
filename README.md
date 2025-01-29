@@ -16,3 +16,12 @@ on a fresh debian-based linux distribution. Install on other environments can be
 too much trouble. 
 
 Please visit www.fixisoft.com if you're looking for more information !
+
+## Get started on Windows
+For simplicity, current documentation assumes UNIX conventions. 
+Only minor changes are required to run the entire SDK on Windows :
+
+1. Use a good package manager. [Scoop](https://scoop.sh/) does a great job
+2. Install Cygwin ```scoop install cygwin``` to run bash scripts
+3. Install Python  & matploblib ```scoop install python``` ```pip install matplotlib``` to run analysis scripts
+4. Run the benchmarks in TCP mode ```ideafix_bench.sh -p```. Only recent versions of Windows support UNIX Domain Sockets
