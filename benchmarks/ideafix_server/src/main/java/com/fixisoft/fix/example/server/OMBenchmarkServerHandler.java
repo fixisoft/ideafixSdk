@@ -28,7 +28,7 @@ public final class OMBenchmarkServerHandler implements IFixIncomingHandler<IMess
     private Supplier<AsciiString> orderIds;
     private Supplier<IMessage> slowSupplier;
 
-    private IMessage fillExecutionReport(final IChannelContext<IMessage> ctx, final char status, final AsciiString symbol, final FixDecimal qty, final FixDecimal price) throws InvalidFixException {
+    private IMessage fillExecutionReport(final char status, final AsciiString symbol, final FixDecimal qty, final FixDecimal price) throws InvalidFixException {
         IMessage m;
         if ((m = fastSupplier.get()) == null) {
             if ((m = fastSupplier.get()) == null) {
@@ -66,7 +66,7 @@ public final class OMBenchmarkServerHandler implements IFixIncomingHandler<IMess
                 final AsciiString symbol = incoming.getString(Symbol.FIELD);
                 final FixDecimal qty = incoming.getDecimal(OrderQty.FIELD);
                 final FixDecimal price = incoming.getDecimal(Price.FIELD);
-                ctx.sendAndFlush(fillExecutionReport(ctx, OrdStatus.NEW, symbol, qty, price), fillExecutionReport(ctx, OrdStatus.FILLED, symbol, qty, price));
+                ctx.sendAndFlush(fillExecutionReport(OrdStatus.NEW, symbol, qty, price), fillExecutionReport(OrdStatus.FILLED, symbol, qty, price));
             } catch (InvalidFixException e) {
                 throw new RuntimeException(e);
             }

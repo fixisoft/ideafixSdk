@@ -28,7 +28,7 @@ public final class OMBenchmarkDirectServerHandler implements IFixIncomingHandler
     private Supplier<ByteBuf> orderIds;
     private Supplier<IMessage> slowSupplier;
 
-    private IMessage fillExecutionReport(final IChannelContext<IMessage> ctx, final char status, final ImmutableMessage incoming) throws InvalidFixException {
+    private IMessage fillExecutionReport(final char status, final ImmutableMessage incoming) throws InvalidFixException {
         IMessage m;
         if ((m = fastSupplier.get()) == null) {
             if ((m = fastSupplier.get()) == null) {
@@ -64,8 +64,8 @@ public final class OMBenchmarkDirectServerHandler implements IFixIncomingHandler
         if (ORDER_SINGLE.equals(incoming.getType())) {
             try {
                 ctx.sendAndFlush(
-                        fillExecutionReport(ctx, OrdStatus.NEW, incoming),
-                        fillExecutionReport(ctx, OrdStatus.FILLED, incoming));
+                        fillExecutionReport(OrdStatus.NEW, incoming),
+                        fillExecutionReport(OrdStatus.FILLED, incoming));
             } catch (InvalidFixException e) {
                 throw new RuntimeException(e);
             }

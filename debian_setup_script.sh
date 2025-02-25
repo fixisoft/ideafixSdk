@@ -15,38 +15,34 @@ sudo apt-get dist-upgrade
 # sudo apt-get install linux-*-6.7.12+bpo-amd64
 
 # dependencies for benchmark scripts
-sudo apt-get install zip
-sudo apt-get install bc
+sudo apt-get install zip bc 
 
 # dependencies for analysis scripts
-sudo apt-get install python-is-python3
-sudo apt-get install python3-matplotlib
+sudo apt-get install python-is-python3 python3-matplotlib
 
-# dependencies to monitor benchmark
-sudo apt-get install htop
-sudo apt-get install iotop
-sudo apt-get install sysstat
+# dependencies to monitor and optimise benchmark 
+sudo apt-get install htop iotop sysstat linux-cpupower
 
 # JAVA dependencies to run IdeaFIX. using SDKMAN!
 curl -s "https://get.sdkman.io" | bash
 source "/home/debian/.sdkman/bin/sdkman-init.sh"
-sdk install java
+sdk install java #23.0.2-graal
 sdk install gradle 
 sdk install maven
 
 # download and unzip IdeaFIX SDK
 cd ~
-wget http://www.fixisoft.com/ideafixSdk-1.4.0.zip
-unzip ideafixSdk-1.4.0.zip
+wget http://www.fixisoft.com/ideafixSdk-1.4.1.zip
+unzip ideafixSdk-1.4.1.zip
 
 # run benchmarks
-# cd ideafixSdk-1.4.0
+# cd ideafixSdk-1.4.1
 # ./install.sh
 # cd benchmark
 # ./ideafix_bench.sh
 
-# swithcing to performance cpu governor
-# sudo find /sys/devices/system/cpu -name scaling_governor -exec sh -c 'echo performance > {}' ';'
+# switching to performance cpu governor
+# sudo cpupower frequency-set -g performance
 
 # git is required for tkg kernel
 # apt-get install git

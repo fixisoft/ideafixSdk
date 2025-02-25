@@ -21,8 +21,8 @@ import static java.util.Map.ofEntries;
 
 public final class OMClientBenchmark {
 
-    public static final String BENCHMARK_CLIENT = "clientBenchmark";
-    public static final String BENCHMARK_SERVER = "serverBenchmark";
+    public static final String BENCHMARK_CLIENT = "client";
+    public static final String BENCHMARK_SERVER = "server";
 
 
     public static void main(String[] args) {

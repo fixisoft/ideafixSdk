@@ -36,6 +36,8 @@ allprojects {
                   '-XX:+AlwaysPreTouch',
                   '-XX:+DisableExplicitGC',
                   '-XX:-UseCompressedOops',
+                  '-XX:+UnlockDiagnosticVMOptions',
+                  '-XX:-LogEvents',
                   '--add-opens',
                   'java.base/jdk.internal.misc=ALL-UNNAMED',
                   '--add-opens',
@@ -55,17 +57,18 @@ allprojects {
                   '-XX:CompileThreshold=40000',
                   '-XX:InlineSmallCode=2048',
                   '-XX:MaxInlineLevel=30',
-                  '-XX:MaxInlineSize=200',
+                  '-XX:MaxInlineSize=500',
                   '-Djava.net.preferIPv4Stack=true',
                   '-Dio.netty.tryReflectionSetAccessible=true',
                   '-Dio.netty.buffer.checkBounds=false',
                   '-Dio.netty.buffer.checkAccessible=false',
                   '-Dio.netty.allocator.useCacheForAllThreads=false',
                   '-Dio.netty.leakDetection.level=disabled',
-                  '-Dio.netty.allocator.numHeapArenas=0',
-                  '-Dio.netty.allocator.pageSize=16384',
-                  '-Dio.netty.allocator.cacheTrimInterval=65536',
-                  '-Dio.netty.recycler.chunkSize=256',
+                  '-Dio.netty.allocator.pageSize=4096',
+                  '-Dio.netty.allocator.cacheTrimInterval=131072',
+                  '-Dio.netty.recycler.chunkSize=16',
+                  '-Dio.netty.recycler.maxCapacityPerThread=2048',
+                  '-Dio.netty.recycler.ratio=16',
                   '-Dlog4j2.isWebapp=false',
                   '-Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.BasicAsyncLoggerContextSelector',
                   '-Dlog4j2.enableThreadlocals=true',
@@ -78,8 +81,7 @@ allprojects {
                   '-Dlog4j2.layoutStringBuilderMaxSize=2048',
                   '-Dlog4j2.unboxRingbufferSize=32',
                   '-DAsyncLogger.SynchronizeEnqueueWhenQueueFull=false',
-                  '-DAsyncLogger.threadNameStrategy=CACHED',
-		          '-Dcom.fixisoft.fix.util.concurrent.FixThreadFactory.loopType=asyncNanoTime',
+		         '-Dcom.fixisoft.fix.util.concurrent.FixThreadFactory.loopType=asyncNanoTime',
                   '-XX:+UnlockExperimentalVMOptions',
                   '-XX:+UseCharacterCompareIntrinsics',
                   '-XX:+UseLargePages',
@@ -89,9 +91,10 @@ allprojects {
                   '-XX:+UseVectorizedHashCodeIntrinsic',
                   '-XX:MetaspaceSize=64M',
                   '-XX:ConcGCThreads=1',
-                  '-XX:CICompilerCount=2']
+                  '-XX:CICompilerCount=2',
+                  '-Dio.netty.allocator.type=pooled']
 
-        allArgs = common + ['-XX:MaxGCPauseMillis=20']
+        allArgs = common + ['-XX:MaxGCPauseMillis=30']
 
         configurations.all {
             exclude group: "logback", module: "logback-classic"
