@@ -65,6 +65,7 @@ public final class OMDirectServerBenchmark {
                         "A", 64
                 )),
                 entry(PERSIST_INCOMING_MESSAGES, false),
+                entry(PERSIST_OUTGOING_MESSAGES, false),
                 entry(BOSS_EVENT_LOOP_BUSY_WAIT, false),
                 entry(WORKER_EVENT_LOOP_BUSY_WAIT, true),
                 entry(SO_BUSY_POLL, 50), // depends on System setup needs root
