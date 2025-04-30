@@ -23,8 +23,8 @@ import static java.util.Map.ofEntries;
 
 public final class OMDirectServerBenchmark {
 
-    public static final String BENCHMARK_CLIENT = "clientBenchmark";
-    public static final String BENCHMARK_SERVER = "serverBenchmark";
+    public static final String BENCHMARK_CLIENT = "client";
+    public static final String BENCHMARK_SERVER = "server";
 
     public static void main(String[] args) {
         final String name = OMDirectServerBenchmark.class.getSimpleName();
@@ -46,28 +46,32 @@ public final class OMDirectServerBenchmark {
                 entry(HEART_BT_INT, 10),
                 entry(INCOMING_POOL_SIZES, Map.of(
                         "D", 128,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
+                        "0", 32,
+                        "1", 32,
+                        "2", 32,
+                        "3", 32,
+                        "4", 32,
+                        "5", 32,
+                        "A", 32
                 )),
                 entry(OUTGOING_POOL_SIZES, Map.of(
                         "8", 256,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
+                        "0", 32,
+                        "1", 32,
+                        "2", 32,
+                        "3", 32,
+                        "4", 32,
+                        "5", 32,
+                        "A", 32
                 )),
+                entry(FILE_STORE_MAX_CACHED_MSGS,0),
                 entry(PERSIST_INCOMING_MESSAGES, false),
                 entry(PERSIST_OUTGOING_MESSAGES, false),
                 entry(BOSS_EVENT_LOOP_BUSY_WAIT, false),
                 entry(WORKER_EVENT_LOOP_BUSY_WAIT, true),
+                entry(SO_SNDBUF, 512),
+                entry(SO_RCVBUF,256),
+                entry(TCP_NOT_SENT_LOWAT, 1024),
                 entry(SO_BUSY_POLL, 50), // depends on System setup needs root
                 entry(SOCKET_HOST, "localhost"),
                 entry(SOCKET_ACCEPT_PORT, 8080),
@@ -82,7 +86,7 @@ public final class OMDirectServerBenchmark {
             configMap.put(IFixConfig.CIPHER_SUITES,"TLS_AES_128_GCM_SHA256");
         }
         if(useTCP) {
-            configMap.put(SOCKET_ACCEPT_PROTOCOL, Protocol.TCP.name());
+            configMap.put(IFixConfig.SOCKET_ACCEPT_PROTOCOL, Protocol.TCP.name());
         } else {
             configMap.put(SOCKET_ACCEPT_PROTOCOL, UNIX_DOMAIN_SOCKET.name());
             configMap.put(UNIX_DOMAIN_SOCKET_PATH, "/dev/shm/om_benchmark.sock");

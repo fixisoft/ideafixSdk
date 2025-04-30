@@ -50,7 +50,7 @@ public final class OMClientIncomingHandler implements IFixIncomingHandler<IMessa
                 m.set(OrderQty.FIELD, ctx.decimal(400.50));
                 m.set(Symbol.FIELD, MSFT);
                 m.set(ClOrdID.FIELD, sequence.get());
-                m.set(TransactTime.FIELD, ctx.nowUTC());
+                ctx.feedNowUTC(m, TransactTime.FIELD);
                 ctx.send(m);
             }
             final IMessage m = supplier.get();
@@ -61,7 +61,7 @@ public final class OMClientIncomingHandler implements IFixIncomingHandler<IMessa
             m.set(OrderQty.FIELD, ctx.decimal(400.50));
             m.set(Symbol.FIELD, MSFT);
             m.set(ClOrdID.FIELD, sequence.get());
-            m.set(TransactTime.FIELD, ctx.nowUTC());
+            ctx.feedNowUTC(m, TransactTime.FIELD);
             ctx.sendAndFlush(m);
         } catch (Exception e) {
             throw new RuntimeException(e);

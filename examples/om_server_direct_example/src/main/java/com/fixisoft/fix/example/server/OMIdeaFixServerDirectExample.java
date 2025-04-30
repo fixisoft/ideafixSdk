@@ -38,34 +38,12 @@ public final class OMIdeaFixServerDirectExample {
        Map<String,Object> session1 = ofEntries(
                 entry(IFixConfig.BEGIN_STRING, "FIX.4.4"),
                 entry(IFixConfig.CONNECTION_TYPE, ConnectionType.ACCEPTOR),
-                entry(IFixConfig.DATA_DICTIONARY, "SIMPLE_OM.xml"),
-               entry(IFixConfig.START_TIME, "00:00:00"),
-               entry(IFixConfig.END_TIME, "23:59:59"),
+                entry(IFixConfig.DATA_DICTIONARY, "DIRECT_SIMPLE_OM.xml"),
+                entry(IFixConfig.START_TIME, "00:00:00"),
+                entry(IFixConfig.END_TIME, "23:59:59"),
                 entry(IFixConfig.TIME_ZONE,"Europe/Paris"),
-               /* entry(START_DAY,"Monday"),
-                entry(END_DAY,"Friday"),*/
                 entry(IFixConfig.FILE_STORE_PATH, "./messages/" + name1),
                 entry(IFixConfig.HEART_BT_INT, 10),
-                entry(IFixConfig.INCOMING_POOL_SIZES, Map.of(
-                        "D", 512,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
-                entry(IFixConfig.OUTGOING_POOL_SIZES, Map.of(
-                        "8", 1024,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
                 entry(IFixConfig.SENDER_COMP_ID, TEST_SERVER_1),
                 entry(IFixConfig.TARGET_COMP_ID, TEST_CLIENT_1),
                 entry(IFixConfig.SOCKET_ACCEPT_PROTOCOL, Protocol.TCP.name()),
@@ -80,41 +58,19 @@ public final class OMIdeaFixServerDirectExample {
                 entry(START_TIME, "00:00:00"),
                 entry(END_TIME, "23:59:00"),
                 entry(TIME_ZONE,"Europe/Paris"),
-               *//* entry(START_DAY,"Monday"),
-                entry(END_DAY,"Friday"),*//*
+                entry(START_DAY,"Monday"),
+                entry(END_DAY,"Friday"),
                 entry(FILE_STORE_PATH, "./test_2/" + name2),
                 entry(HEART_BT_INT, 10),
-                entry(INCOMING_POOL_SIZES, Map.of(
-                        "D", 8192,
-                        "0", 128,
-                        "1", 128,
-                        "2", 128,
-                        "3", 128,
-                        "4", 128,
-                        "5", 128,
-                        "A", 128
-                )),
-                entry(OUTGOING_POOL_SIZES, Map.of(
-                        "8", 16384,
-                        "0", 128,
-                        "1", 128,
-                        "2", 128,
-                        "3", 128,
-                        "4", 128,
-                        "5", 128,
-                        "A", 128
-                )),
                 entry(SENDER_COMP_ID, TEST_SERVER_2),
                 entry(TARGET_COMP_ID, TEST_CLIENT_2),
                 entry(SOCKET_ACCEPT_PROTOCOL, TCP.name()),
-          //      entry(UNIX_DOMAIN_SOCKET_PATH, "/tmp/fix.sock"),
+                entry(UNIX_DOMAIN_SOCKET_PATH, "/tmp/fix.sock"),
                 entry(SOCKET_HOST, "localhost"),
                 entry(SOCKET_ACCEPT_PORT, 8080));*/
 
         Map<String, Map<String,Object>> sessionProperties = new HashMap<>();
         sessionProperties.put(name1, session1);
-    //    sessionProperties.put(name2, session2);
-
         return FixServerFactory.loadConfig(sessionProperties);
     }
 }

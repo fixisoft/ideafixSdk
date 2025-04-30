@@ -12,6 +12,7 @@ import com.fixisoft.interfaces.fix.config.IFixConfig;
 
 import java.util.Map;
 
+import static com.fixisoft.interfaces.fix.config.IFixConfig.DATA_DICTIONARY;
 import static java.util.Map.entry;
 import static java.util.Map.ofEntries;
 
@@ -31,34 +32,12 @@ public final class OMIdeaFixClientDirectExample {
         return FixClientFactory.loadConfig(name, ofEntries(
                 entry(IFixConfig.BEGIN_STRING, "FIX.4.4"),
                 entry(IFixConfig.CONNECTION_TYPE, ConnectionType.INITIATOR),
-                entry(IFixConfig.DATA_DICTIONARY, "SIMPLE_OM.xml"),
+                entry(IFixConfig.DATA_DICTIONARY, "DIRECT_SIMPLE_OM.xml"),
                 entry(IFixConfig.START_TIME, "00:00:00"),
                 entry(IFixConfig.END_TIME, "23:59:59"),
                 entry(IFixConfig.TIME_ZONE, "Europe/Paris"),
-           /*     entry(START_DAY, "Monday"),
-                entry(END_DAY, "Friday"),*/
                 entry(IFixConfig.FILE_STORE_PATH, "./messages/" + name),
                 entry(IFixConfig.HEART_BT_INT, 10),
-                entry(IFixConfig.INCOMING_POOL_SIZES, Map.of(
-                        "8", 1024,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
-                entry(IFixConfig.OUTGOING_POOL_SIZES, Map.of(
-                        "D", 512,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
                 entry(IFixConfig.PERSIST_INCOMING_MESSAGES, false),
                 entry(IFixConfig.SENDER_COMP_ID, TEST_CLIENT_1),
                 entry(IFixConfig.TARGET_COMP_ID, TEST_SERVER_1),

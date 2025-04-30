@@ -38,20 +38,20 @@ sudo apt-get install htop iotop sysstat linux-cpupower psmisc
 # JAVA dependencies to run IdeaFIX. using SDKMAN!
 curl -s "https://get.sdkman.io" | bash
 source "/home/debian/.sdkman/bin/sdkman-init.sh"
-sdk install java 23.0.2-graal
+sdk install java 24.0.1-graal
 sdk install gradle 
 sdk install maven
 
 # download and unzip IdeaFIX SDK
 cd ~
-wget http://www.fixisoft.com/ideafixSdk-1.4.1.zip
-unzip ideafixSdk-1.4.1.zip
+wget http://www.fixisoft.com/ideafixSdk-1.5.3.zip
+unzip ideafixSdk-1.5.3.zip
 
 # switching to performance cpu governor
 cpupower frequency-set -g performance
 
 # run benchmarks
-# cd ideafixSdk-1.4.1
+# cd ideafixSdk-1.5.3
 # ./install.sh
 # cd benchmark
 # ./ideafix_bench.sh

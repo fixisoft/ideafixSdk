@@ -1,0 +1,12 @@
+population mean = 5595.74 ns
+sampled mean = 5594.67 ns
+std dev. = 98.90 ns
+sample size = 993
+Percentiles:
+	1.00th percentile = 5485.81 ns
+	5.00th percentile = 5507.53 ns
+	50.00th percentile = 5593.06 ns
+	90.00th percentile = 5645.66 ns
+	95.00th percentile = 5657.65 ns
+	99.00th percentile = 5714.02 ns
+	99.99th percentile = 9132.94 ns

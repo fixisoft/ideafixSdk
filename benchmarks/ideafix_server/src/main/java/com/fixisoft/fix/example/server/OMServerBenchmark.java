@@ -64,6 +64,7 @@ public final class OMServerBenchmark {
                         "5", 32,
                         "A", 32
                 )),
+                entry(FILE_STORE_MAX_CACHED_MSGS,0),
                 entry(PERSIST_INCOMING_MESSAGES, false),
                 entry(PERSIST_OUTGOING_MESSAGES, false),
                 entry(BOSS_EVENT_LOOP_BUSY_WAIT, false),

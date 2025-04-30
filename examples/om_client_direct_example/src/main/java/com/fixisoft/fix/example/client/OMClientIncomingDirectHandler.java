@@ -24,44 +24,36 @@ import static com.fixisoft.interfaces.fix.fields.fix44.MsgType.ORDER_SINGLE;
 public final class OMClientIncomingDirectHandler implements IFixIncomingHandler<IMessage> {
 
     private static final AsciiString MSFT = AsciiString.cached("MSFT");
+
+    private static final AsciiString EXECUTION_REPORT = MsgType.EXECUTION_REPORT;
+
     private IChannelContext<IMessage> ctx;
-    private ScheduledFuture<?> future;
+
     private Supplier<ByteBuf> sequence;
-    private Supplier<IMessage> supplier;
+
+    private Supplier<IMessage> fastSupplier;
+
+    private Supplier<IMessage> slowSupplier;
 
     @Override
     public void close() {
-        if (future != null) future.cancel(true);
-    }
-
-    @Override
-    public void onDisconnection() {
-        if (future != null) future.cancel(true);
     }
 
     private void fillSingleNewOrder() {
         try {
-            for (int i = 0; i < 3; i++) {
-                final IMessage m = supplier.get();
-                if (m == null) return;
-                m.set(OrdType.FIELD, OrdType.LIMIT);
-                m.set(Price.FIELD, ctx.decimal(100.122));
-                m.set(Side.FIELD, Side.BUY);
-                m.set(OrderQty.FIELD, ctx.decimal(400.50));
-                m.set(Symbol.FIELD, MSFT);
-                m.setDirect(ClOrdID.FIELD, sequence.get());
-                m.setDirect(TransactTime.FIELD, ctx.nowUTCDirect());
-                ctx.send(m);
+            IMessage m;
+            if ((m = fastSupplier.get())==null) {
+                if ((m = fastSupplier.get())==null) {
+                    m = slowSupplier.get();
+                }
             }
-            final IMessage m = supplier.get();
-            if (m == null) return;
             m.set(OrdType.FIELD, OrdType.LIMIT);
             m.set(Price.FIELD, ctx.decimal(100.122));
             m.set(Side.FIELD, Side.BUY);
-            m.set(OrderQty.FIELD,  ctx.decimal(400.50));
+            m.set(OrderQty.FIELD, ctx.decimal(400.50));
             m.set(Symbol.FIELD, MSFT);
             m.setDirect(ClOrdID.FIELD, sequence.get());
-            m.setDirect(TransactTime.FIELD, ctx.nowUTCDirect());
+            ctx.feedNowUTC(m, TransactTime.FIELD);
             ctx.sendAndFlush(m);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -71,10 +63,11 @@ public final class OMClientIncomingDirectHandler implements IFixIncomingHandler<
 
     @Override
     public void onLogon(final IChannelContext<IMessage> ctx) {
-        this.supplier = ctx.getSupplier(ORDER_SINGLE);
+        this.fastSupplier = ctx.getSupplier(ORDER_SINGLE);
+        this.slowSupplier = ctx.getSupplier(ORDER_SINGLE);
         this.ctx = ctx;
         this.sequence = ctx.asyncSupplier(new TimeBasedUniqueIdSequenceDirect());
-        this.future = ctx.scheduleWithFixedDelay(this::fillSingleNewOrder, 5000, 10, TimeUnit.MILLISECONDS);
+        fillSingleNewOrder();
     }
 
     @Override
@@ -84,7 +77,9 @@ public final class OMClientIncomingDirectHandler implements IFixIncomingHandler<
 
     @Override
     public void onMessage(final ImmutableMessage incoming, final IChannelContext<IMessage> ctx) {
-
+        if (EXECUTION_REPORT.equals(incoming.getType()) && incoming.getChar(OrdStatus.FIELD)==OrdStatus.FILLED)
+            fillSingleNewOrder();
     }
+
 
 }

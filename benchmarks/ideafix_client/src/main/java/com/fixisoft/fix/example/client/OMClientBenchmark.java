@@ -63,6 +63,7 @@ public final class OMClientBenchmark {
                         "5", 32,
                         "A", 32
                 )),
+                entry(FILE_STORE_MAX_CACHED_MSGS,0),
                 entry(PERSIST_INCOMING_MESSAGES, false),
                 entry(WORKER_EVENT_LOOP_BUSY_WAIT, true),
                 entry(SO_BUSY_POLL, 50), // depends on System setup needs root

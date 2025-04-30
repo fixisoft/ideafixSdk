@@ -34,37 +34,16 @@ public final class FixMDServerExample {
                 entry(IFixConfig.BEGIN_STRING, "FIX.4.4"),
                 entry(IFixConfig.CONNECTION_TYPE, ConnectionType.ACCEPTOR),
                 entry(IFixConfig.DATA_DICTIONARY, "SIMPLE_MD.xml"),
-               entry(IFixConfig.START_TIME, "00:00:00"),
-               entry(IFixConfig.END_TIME, "23:59:59"),
+                entry(IFixConfig.START_TIME, "00:00:00"),
+                entry(IFixConfig.END_TIME, "23:59:59"),
                 entry(IFixConfig.TIME_ZONE,"Europe/Paris"),
                 entry(IFixConfig.FILE_STORE_PATH, "./messages/" + name),
                 entry(IFixConfig.HEART_BT_INT, 10),
-                entry(IFixConfig.INCOMING_POOL_SIZES, Map.of(
-                        "V", 64,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
-                entry(IFixConfig.OUTGOING_POOL_SIZES, Map.of(
-                        "W", 2048,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
                 entry(IFixConfig.SENDER_COMP_ID, TEST_SERVER_1),
                 entry(IFixConfig.TARGET_COMP_ID, TEST_CLIENT_1),
                 entry(IFixConfig.SOCKET_ACCEPT_PROTOCOL, Protocol.TCP.name()),
                 entry(IFixConfig.SOCKET_HOST, "localhost"),
                 entry(IFixConfig.SOCKET_ACCEPT_PORT, 8080));
-
         Map<String, Map<String,Object>> sessionProperties = new HashMap<>();
         sessionProperties.put(name, session1);
         return FixServerFactory.loadConfig(sessionProperties);

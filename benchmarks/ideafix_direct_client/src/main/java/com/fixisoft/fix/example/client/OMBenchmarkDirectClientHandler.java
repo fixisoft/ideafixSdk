@@ -22,11 +22,16 @@ import static com.fixisoft.interfaces.fix.fields.fix44.MsgType.ORDER_SINGLE;
 public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler<IMessage> {
 
     private static final AsciiString MSFT = AsciiString.cached("MSFT");
+
     private static final AsciiString EXECUTION_REPORT = MsgType.EXECUTION_REPORT;
+
     private IChannelContext<IMessage> ctx;
+
     private Supplier<ByteBuf> sequence;
-    private Supplier<IMessage> slowSupplier;
+
     private Supplier<IMessage> fastSupplier;
+
+    private Supplier<IMessage> slowSupplier;
 
     @Override
     public void close() {
@@ -35,8 +40,8 @@ public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler
     private void fillSingleNewOrder() {
         try {
             IMessage m;
-            if ((m = fastSupplier.get()) == null) {
-                if ((m = fastSupplier.get()) == null) {
+            if ((m = fastSupplier.get())==null) {
+                if ((m = fastSupplier.get())==null) {
                     m = slowSupplier.get();
                 }
             }
@@ -46,7 +51,7 @@ public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler
             m.set(OrderQty.FIELD, ctx.decimal(400.50));
             m.set(Symbol.FIELD, MSFT);
             m.setDirect(ClOrdID.FIELD, sequence.get());
-            m.setDirect(TransactTime.FIELD, ctx.nowUTCDirect());
+            ctx.feedNowUTC(m, TransactTime.FIELD);
             ctx.sendAndFlush(m);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -56,8 +61,8 @@ public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler
 
     @Override
     public void onLogon(final IChannelContext<IMessage> ctx) {
-        this.slowSupplier = ctx.getSlowSupplier(ORDER_SINGLE);
         this.fastSupplier = ctx.getSupplier(ORDER_SINGLE);
+        this.slowSupplier = ctx.getSupplier(ORDER_SINGLE);
         this.ctx = ctx;
         this.sequence = ctx.asyncSupplier(new TimeBasedUniqueIdSequenceDirect());
         fillSingleNewOrder();
@@ -70,7 +75,7 @@ public final class OMBenchmarkDirectClientHandler implements IFixIncomingHandler
 
     @Override
     public void onMessage(final ImmutableMessage incoming, final IChannelContext<IMessage> ctx) {
-        if (EXECUTION_REPORT.equals(incoming.getType()) && incoming.getChar(OrdStatus.FIELD) == OrdStatus.FILLED)
+        if (EXECUTION_REPORT.equals(incoming.getType()) && incoming.getChar(OrdStatus.FIELD)==OrdStatus.FILLED)
             fillSingleNewOrder();
     }
 

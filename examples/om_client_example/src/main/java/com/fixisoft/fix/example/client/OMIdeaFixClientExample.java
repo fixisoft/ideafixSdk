@@ -35,30 +35,8 @@ public final class OMIdeaFixClientExample {
                 entry(IFixConfig.START_TIME, "00:00:00"),
                 entry(IFixConfig.END_TIME, "23:59:59"),
                 entry(IFixConfig.TIME_ZONE, "Europe/Paris"),
-           /*     entry(START_DAY, "Monday"),
-                entry(END_DAY, "Friday"),*/
                 entry(IFixConfig.FILE_STORE_PATH, "./messages/" + name),
                 entry(IFixConfig.HEART_BT_INT, 10),
-                entry(IFixConfig.INCOMING_POOL_SIZES, Map.of(
-                        "8", 1024,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
-                entry(IFixConfig.OUTGOING_POOL_SIZES, Map.of(
-                        "D", 512,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
                 entry(IFixConfig.SENDER_COMP_ID, TEST_CLIENT_1),
                 entry(IFixConfig.TARGET_COMP_ID, TEST_SERVER_1),
                 entry(IFixConfig.SOCKET_CONNECT_PROTOCOL, Protocol.TCP.name()),

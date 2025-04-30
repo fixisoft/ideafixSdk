@@ -90,8 +90,8 @@
         <field number="56" name="TargetCompID" type="STRING"/>
         <field number="34" name="MsgSeqNum" type="SEQNUM"/>
         <field number="43" name="PossDupFlag" type="BOOLEAN"/>
-        <field number="52" name="SendingTime" type="UTCTIMESTAMP" direct="true"/>
-        <field number="122" name="OrigSendingTime" type="UTCTIMESTAMP" direct="true"/>
+        <field number="52" name="SendingTime" type="UTCTIMESTAMP"/>
+        <field number="122" name="OrigSendingTime" type="UTCTIMESTAMP"/>
         <field number="10" name="CheckSum" type="STRING"/>
         <field number="112" name="TestReqID" type="STRING"/>
         <field number="98" name="EncryptMethod" type="INT">
@@ -139,7 +139,7 @@
         <field number="123" name="GapFillFlag" type="BOOLEAN"/>
         <field number="36" name="NewSeqNo" type="SEQNUM"/>
         <field number="11" name="ClOrdID" type="STRING" direct="true"/>
-        <field number="55" name="Symbol" type="STRING" direct="true"/>
+        <field number="55" name="Symbol" type="STRING"/>
         <field number="54" name="Side" type="CHAR">
             <value enum="1" description="BUY"/>
             <value enum="2" description="SELL"/>
@@ -159,7 +159,7 @@
             <value enum="G" description="BORROW"/>
         </field>
         <field number="60" name="TransactTime" type="UTCTIMESTAMP"/>
-        <field number="38" name="OrderQty" type="QTY" direct="true"/>
+        <field number="38" name="OrderQty" type="QTY"/>
         <field number="40" name="OrdType" type="CHAR">
             <value enum="1" description="MARKET"/>
             <value enum="2" description="LIMIT"/>
@@ -226,8 +226,8 @@
             <value enum="D" description="ACCEPTED_FOR_BIDDING"/>
             <value enum="E" description="PENDING_REPLACE"/>
         </field>
-        <field number="31" name="LastPx" type="PRICE" direct="true"/>
-        <field number="14" name="CumQty" type="QTY" direct="true"/>
-        <field number="6" name="AvgPx" type="PRICE" direct="true"/>
+        <field number="31" name="LastPx" type="PRICE"/>
+        <field number="14" name="CumQty" type="QTY"/>
+        <field number="6" name="AvgPx" type="PRICE"/>
     </fields>
 </fix>

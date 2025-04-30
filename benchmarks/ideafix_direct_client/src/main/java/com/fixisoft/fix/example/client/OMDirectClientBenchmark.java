@@ -21,8 +21,8 @@ import static java.util.Map.ofEntries;
 
 public final class OMDirectClientBenchmark {
 
-    public static final String BENCHMARK_CLIENT = "clientBenchmark";
-    public static final String BENCHMARK_SERVER = "serverBenchmark";
+    public static final String BENCHMARK_CLIENT = "client";
+    public static final String BENCHMARK_SERVER = "server";
 
 
     public static void main(String[] args) {
@@ -34,7 +34,7 @@ public final class OMDirectClientBenchmark {
     }
 
     public static IFixConfig makeSimpleClientConfig(final String name, final  boolean useSSL, boolean useTCP) {
-        Map<String,Object> configMap = new HashMap<>(ofEntries(
+        HashMap<String,Object> configMap = new HashMap<>(ofEntries(
                 entry(BEGIN_STRING, "FIX.4.4"),
                 entry(CONNECTION_TYPE, ConnectionType.INITIATOR),
                 entry(DATA_DICTIONARY, "DIRECT_SIMPLE_OM.xml"),
@@ -45,32 +45,35 @@ public final class OMDirectClientBenchmark {
                 entry(HEART_BT_INT, 10),
                 entry(INCOMING_POOL_SIZES, Map.of(
                         "8", 256,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
+                        "0", 32,
+                        "1", 32,
+                        "2", 32,
+                        "3", 32,
+                        "4", 32,
+                        "5", 32,
+                        "A", 32
                 )),
                 entry(OUTGOING_POOL_SIZES, Map.of(
                         "D", 128,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
+                        "0", 32,
+                        "1", 32,
+                        "2", 32,
+                        "3", 32,
+                        "4", 32,
+                        "5", 32,
+                        "A", 32
                 )),
+                entry(FILE_STORE_MAX_CACHED_MSGS,0),
                 entry(PERSIST_INCOMING_MESSAGES, false),
                 entry(WORKER_EVENT_LOOP_BUSY_WAIT, true),
                 entry(SO_BUSY_POLL, 50), // depends on System setup needs root
+                entry(SO_SNDBUF, 256),
+                entry(SO_RCVBUF,512),
+                entry(TCP_NOT_SENT_LOWAT, 1024),
                 entry(SOCKET_HOST, "localhost"),
                 entry(SOCKET_PORT, 8080),
                 entry(SENDER_COMP_ID, BENCHMARK_CLIENT),
-                entry(TARGET_COMP_ID, BENCHMARK_SERVER)
-        ));
+                entry(TARGET_COMP_ID, BENCHMARK_SERVER)));
         if(useSSL) {
             configMap.put(IFixConfig.SOCKET_USE_SSL, true);
             configMap.put(IFixConfig.SOCKET_KEY_STORE, "client.jks");
@@ -83,6 +86,6 @@ public final class OMDirectClientBenchmark {
             configMap.put(SOCKET_CONNECT_PROTOCOL, Protocol.UNIX_DOMAIN_SOCKET.name());
             configMap.put(UNIX_DOMAIN_SOCKET_PATH,"/dev/shm/om_benchmark.sock");
         }
-        return FixClientFactory.loadConfig(name,configMap) ;
+        return FixClientFactory.loadConfig(name, configMap);
     }
 }

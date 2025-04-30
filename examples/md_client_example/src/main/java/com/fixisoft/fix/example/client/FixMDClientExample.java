@@ -38,26 +38,6 @@ public final class FixMDClientExample {
                 entry(IFixConfig.TIME_ZONE, "Europe/Paris"),
                 entry(IFixConfig.FILE_STORE_PATH, "./messages/" + name),
                 entry(IFixConfig.HEART_BT_INT, 10),
-                entry(IFixConfig.INCOMING_POOL_SIZES, Map.of(
-                        "W", 4096,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
-                entry(IFixConfig.OUTGOING_POOL_SIZES, Map.of(
-                        "V", 64,
-                        "0", 64,
-                        "1", 64,
-                        "2", 64,
-                        "3", 64,
-                        "4", 64,
-                        "5", 64,
-                        "A", 64
-                )),
                 entry(IFixConfig.SENDER_COMP_ID, TEST_CLIENT_1),
                 entry(IFixConfig.TARGET_COMP_ID, TEST_SERVER_1),
                 entry(IFixConfig.SOCKET_CONNECT_PROTOCOL, Protocol.TCP.name()),

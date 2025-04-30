@@ -28,10 +28,13 @@ public final class OMServerIncomingDirectHandler implements IFixIncomingHandler<
     private Supplier<ByteBuf> orderIds;
     private Supplier<IMessage> slowSupplier;
 
-    private IMessage fillExecutionReport(final IChannelContext<IMessage> ctx, final char status, final ImmutableMessage incoming) throws InvalidFixException {
-        IMessage m = fastSupplier.get();
-        if(m == null)
-            m = slowSupplier.get();
+    private IMessage fillExecutionReport(final char status, final ImmutableMessage incoming) throws InvalidFixException {
+        IMessage m;
+        if ((m = fastSupplier.get()) == null) {
+            if ((m = fastSupplier.get()) == null) {
+                m = slowSupplier.get();
+            }
+        }
         m.setDirect(OrderID.FIELD, orderIds.get());
         m.setDirect(ExecID.FIELD, execIds.get());
         m.set(ExecType.FIELD, ExecType.FILL);
@@ -60,7 +63,9 @@ public final class OMServerIncomingDirectHandler implements IFixIncomingHandler<
     public void onMessage(final ImmutableMessage incoming, final IChannelContext<IMessage> ctx) {
         if (ORDER_SINGLE.equals(incoming.getType())) {
             try {
-                ctx.sendAndFlush(fillExecutionReport(ctx, OrdStatus.NEW, incoming), fillExecutionReport(ctx, OrdStatus.FILLED, incoming));
+                ctx.sendAndFlush(
+                        fillExecutionReport(OrdStatus.NEW, incoming),
+                        fillExecutionReport(OrdStatus.FILLED, incoming));
             } catch (InvalidFixException e) {
                 throw new RuntimeException(e);
             }
